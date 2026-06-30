@@ -521,28 +521,43 @@ namespace AttendanceSystem
 
         protected void btnSaveAttendance_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connStr))
+            try
             {
-                conn.Open();
-                foreach (GridViewRow row in gvAttendanceSheet.Rows)
-                {
-                    int studentId = Convert.ToInt32(gvAttendanceSheet.DataKeys[row.RowIndex].Value);
-                    string status = Request.Form["status_" + studentId];
-                    if (string.IsNullOrEmpty(status)) status = "Present";
+                int saveCount = 0;
 
-                    string query = @"MERGE Attendance AS t
-                                     USING (SELECT @studentId AS StudentID, @date AS AttendanceDate) AS s
-                                     ON (t.StudentID = s.StudentID AND t.AttendanceDate = s.AttendanceDate)
-                                     WHEN MATCHED THEN UPDATE SET Status = @status
-                                     WHEN NOT MATCHED THEN INSERT (StudentID, AttendanceDate, Status) VALUES (@studentId, @date, @status);";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@studentId", studentId);
-                    cmd.Parameters.AddWithValue("@date", Convert.ToDateTime(txtDate.Text));
-                    cmd.Parameters.AddWithValue("@status", status);
-                    cmd.ExecuteNonQuery();
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+
+                    // Iterate through each student in the grid
+                    foreach (GridViewRow row in gvAttendanceSheet.Rows)
+                    {
+                        if (row.RowType == DataControlRowType.DataRow)
+                        {
+                            int studentId = Convert.ToInt32(gvAttendanceSheet.DataKeys[row.RowIndex].Value);
+                            string status = Request.Form["status_" + studentId];
+                            if (string.IsNullOrEmpty(status)) status = "Present";
+
+                            string query = @"MERGE Attendance AS t
+                                             USING (SELECT @studentId AS StudentID, @date AS AttendanceDate) AS s
+                                             ON (t.StudentID = s.StudentID AND t.AttendanceDate = s.AttendanceDate)
+                                             WHEN MATCHED THEN UPDATE SET Status = @status
+                                             WHEN NOT MATCHED THEN INSERT (StudentID, AttendanceDate, Status) VALUES (@studentId, @date, @status);";
+                            SqlCommand cmd = new SqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@studentId", studentId);
+                            cmd.Parameters.AddWithValue("@date", Convert.ToDateTime(txtDate.Text));
+                            cmd.Parameters.AddWithValue("@status", status);
+                            cmd.ExecuteNonQuery();
+                            saveCount++;
+                        }
+                    }
                 }
+                LoadAttendanceSheet();
             }
-            LoadAttendanceSheet();
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Save error: " + ex.Message);
+            }
         }
     }
 }`
