@@ -1,0 +1,6 @@
+{
+  "name": "Basic Student Attendance Management System",
+  "description": "A complete ASP.NET Web Forms student attendance system with a Visual Studio 2026 C# project structure and fully interactive simulation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

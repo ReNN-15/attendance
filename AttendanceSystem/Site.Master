@@ -1,0 +1,80 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AttendanceSystem.Site" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Student Attendance Management System</title>
+    
+    <!-- Bootstrap 5 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Custom Style Sheet -->
+    <link href="~/CSS/style.css" rel="stylesheet" />
+    
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+    <form runat="server">
+        <asp:ScriptManager runat="server"></asp:ScriptManager>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="Default.aspx">
+                    <i class="bi bi-calendar-check-fill me-2 fs-4"></i>
+                    <span class="fw-bold tracking-tight">AttendancePro</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link <%= Page.Title == "Dashboard" ? "active fw-semibold text-white" : "" %>" href="Default.aspx">
+                                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <%= Page.Title == "Students" ? "active fw-semibold text-white" : "" %>" href="Students.aspx">
+                                <i class="bi bi-people me-1"></i> Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <%= Page.Title == "Attendance" ? "active fw-semibold text-white" : "" %>" href="Attendance.aspx">
+                                <i class="bi bi-check2-circle me-1"></i> Attendance
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <%= Page.Title == "Reports" ? "active fw-semibold text-white" : "" %>" href="Reports.aspx">
+                                <i class="bi bi-file-earmark-bar-graph me-1"></i> Reports
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="container my-4 flex-grow-1">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-top py-3 mt-auto shadow-sm">
+            <div class="container text-center">
+                <p class="mb-0 text-muted small">&copy; <%: DateTime.Now.Year %> AttendancePro - Basic Student Attendance Management System. Built with ASP.NET Web Forms & Bootstrap 5.</p>
+            </div>
+        </footer>
+    </form>
+
+    <!-- Bootstrap 5 Bundle JS (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <asp:ContentPlaceHolder ID="ScriptContent" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>
