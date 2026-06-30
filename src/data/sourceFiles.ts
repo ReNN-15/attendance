@@ -104,6 +104,9 @@ EndGlobal`
     <compilation debug="true" targetFramework="4.8" />
     <httpRuntime targetFramework="4.8" />
   </system.web>
+  <appSettings>
+    <add key="ValidationSettings:UnobtrusiveValidationMode" value="None" />
+  </appSettings>
   <system.webServer>
     <defaultDocument>
       <files>
